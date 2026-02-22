@@ -826,14 +826,14 @@ if (component=="test" && test=="tooth_profile")
 	a = tooth_profile_cut ();
 	b = rotate_points           (a, -90);
 	c = rotate_to_vector_points (b, [-(screw_diameter_begin-screw_diameter_end)/2,screw_depth]);
-	build_object (a);
+	build (a);
 }
 if (component=="test" && test=="tooth_profile_end")
 {
 	a = tooth_profile_end_cut ();
 	b = rotate_points           (a, -90);
 	c = rotate_to_vector_points (b, [-(screw_diameter_begin-screw_diameter_end)/2,screw_depth]);
-	build_object (a);
+	build (a);
 }
 
 if (component=="test" && test=="bag_pane")
