@@ -32,6 +32,7 @@ support_brim_height = 0.4; // 0.05
 
 wall = 2.5; // 0.1
 
+gap           = 0.15;  // 0.01
 gap_component = 0.12;  // 0.01
 
 glue_bag_depth = 0.30;        // 0.05
@@ -608,9 +609,17 @@ module split_screw_part ()
 
 module tongue ()
 {
+	tongue_only();
+	
+	translate_x(tongue_length)
+	tongue_bind();
+}
+
+module tongue_only (inset=0)
+{
 	difference()
 	{
-		cube_rounded ([tongue_length, tongue_width, tongue_thickness]
+		cube_rounded ([tongue_length+inset, tongue_width, tongue_thickness]
 			,align=[1,0,0]
 			,edges=configure_edges (r=tongue_edges_radius, forward=1)
 		);
@@ -640,9 +649,14 @@ module tongue ()
 			cylinder_extend (r=tonque_hole_length/2, h=tongue_thickness+extra*2, center=true);
 		}
 	}
-	
-	translate_x(tongue_length)
-	tongue_bind();
+}
+
+module tongue_cut (inset=0)
+{
+	cube_rounded ([tongue_length+inset, tongue_width+2*gap, tongue_thickness+2*gap]
+		,align=[1,0,0]
+		,edges=configure_edges (r=tongue_edges_radius+gap, forward=1)
+	);
 }
 
 module tongue_bind()
