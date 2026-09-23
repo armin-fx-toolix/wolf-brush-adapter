@@ -32,8 +32,8 @@ difference()
 	translate_x (tongue_screw_position)
 	{
 		translate_z (-tongue_thickness/2 - 1.0)
-		cylinder_extend (h=30, d= 6.0 + 2*gap, outer=0.5);
+		cylinder_extend (h=30, d= 6.2 + 2*gap, outer=0.5);
 		translate_z ( tongue_thickness/2 + 5.0)
-		cylinder_extend (h=30, d=12.0 + 2*gap, outer=0.5);
+		cylinder_extend (h=30, d=12.2 + 2*gap, outer=0.5);
 	}
 }
