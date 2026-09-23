@@ -10,3 +10,7 @@ screw_pitch = 4;
 screw_tooth_depth = 1;
 screw_tooth_diameter = 2;
 screw_rotation_angle = 45;
+
+/* [Display] */
+
+show_tongue = true;

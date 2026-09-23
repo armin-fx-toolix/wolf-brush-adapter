@@ -90,7 +90,7 @@ screw_rotation_angle = 0;
 /* [Hidden] */
 
 include <banded.scad>
-required_version ([3,0,0]);
+required_version ("3.24");
 
 $fd=0.01;
 
@@ -109,16 +109,14 @@ module show ()
 		if (type=="component")
 		{
 			tongue ();
-			translate_x(tongue_length+tongue_bind_length)
 			screw ();
 		}
 		else if (type=="printable")
 		{
-			translate_z(tongue_length+tongue_bind_length+screw_length)
+			translate_z(screw_length)
 			rotate_y(90)
 			{
 				tongue ();
-				translate_x(tongue_length+tongue_bind_length)
 				screw ();
 			}
 			
@@ -149,8 +147,7 @@ module show ()
 		else if (type=="printable")
 		{
 			rotate_y(90)
-			translate_x(-tongue_length-tongue_bind_length-screw_length)
-			union()
+			translate_x(-screw_length)
 			split_screw_part ();
 			
 			if (support)
@@ -175,12 +172,12 @@ module screw_support ()
 	{
 	union()
 	{
-		ring_square (
+		tube (
 			h =support_brim_height,
 			di=screw_diameter_end + 2,
 			do=screw_outer_diameter
 		);
-		ring_square (
+		tube (
 			h =screw_depth+screw_cylinder_depth - support_gap_z,
 			w =support_line_width,
 			do=screw_outer_diameter
@@ -198,7 +195,7 @@ module screw_support ()
 			do2=screw_outer_diameter
 		);
 		translate_z(screw_depth+screw_cylinder_depth - support_brim_height-support_gap_z)
-		ring_square(
+		tube(
 			h =support_brim_height,
 			di=screw_outer_diameter-raft_width,
 			do=screw_outer_diameter
@@ -249,7 +246,7 @@ module split_tongue_part ()
 		tongue ();
 		//
 		translate([
-			tongue_length -extra,
+			-tongue_bind_length-extra,
 			-tongue_bind_thickness_end-tongue_width/2 -extra,
 			-tongue_thickness/2-tongue_bind_thickness_end -extra
 		])
@@ -260,7 +257,6 @@ module split_tongue_part ()
 		]);
 	}
 	
-	translate_x(tongue_length+tongue_bind_length)
 	difference()
 	{
 		union()
@@ -450,7 +446,6 @@ module clips_side_plane_tongue (h=box_size[2], r=wedge_r, l=200)
 
 module split_screw_part ()
 {
-	translate_x(tongue_length+tongue_bind_length)
 	difference()
 	{
 		screw ();
@@ -592,10 +587,10 @@ module split_screw_part ()
 	}
 	intersection()
 	{
-		tongue ();
+		tongue_bind ();
 		//
 		translate([
-			tongue_length -extra,
+			-tongue_bind_length-extra,
 			-tongue_bind_thickness_end-tongue_width/2 -extra,
 			-tongue_thickness/2-tongue_bind_thickness_end -extra
 		])
@@ -611,15 +606,15 @@ module tongue ()
 {
 	tongue_only();
 	
-	translate_x(tongue_length)
 	tongue_bind();
 }
 
 module tongue_only (inset=0)
 {
+	translate_x (-tongue_length-tongue_bind_length)
 	difference()
 	{
-		cube_rounded ([tongue_length+inset, tongue_width, tongue_thickness]
+		cube_rounded ([tongue_length+tongue_bind_length+inset, tongue_width, tongue_thickness]
 			,align=[1,0,0]
 			,edges=configure_edges (r=tongue_edges_radius, forward=1)
 		);
@@ -653,7 +648,8 @@ module tongue_only (inset=0)
 
 module tongue_cut (inset=0)
 {
-	cube_rounded ([tongue_length+inset, tongue_width+2*gap, tongue_thickness+2*gap]
+	translate_x (  -tongue_length-tongue_bind_length)
+	cube_rounded ([ tongue_length+tongue_bind_length+inset, tongue_width+2*gap, tongue_thickness+2*gap]
 		,align=[1,0,0]
 		,edges=configure_edges (r=tongue_edges_radius+gap, forward=1)
 	);
@@ -661,6 +657,7 @@ module tongue_cut (inset=0)
 
 module tongue_bind()
 {
+	translate_x (-tongue_bind_length)
 	rotate_y(-90)
 	plain_trace_extrude_closed( square_curve([tongue_thickness,tongue_width], center=true) )
 	polygon([
@@ -669,7 +666,7 @@ module tongue_bind()
 		[tongue_bind_thickness_begin, 0],
 		[0                          , 0]
 	]);
-	cube_extend ([tongue_bind_length, tongue_width, tongue_thickness], align=[1,0,0]);
+	cube_extend ([tongue_bind_length, tongue_width, tongue_thickness], align=[-1,0,0]);
 }
 
 module screw ()

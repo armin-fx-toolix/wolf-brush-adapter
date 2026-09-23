@@ -1,33 +1,34 @@
 include <Adapter Buerste.scad>
 
 tongue_inset          = 53.0;
-tongue_screw_position = 45.0;
+tongue_screw_position = 42.0;
 
 shaft_length = 51;
+
+/* [Display] */
+
+show_tongue = true;
 
 /* [Hidden] */
 
 component="none";
 
 
+if (show_tongue)
 virtual()
 tongue_only (inset=tongue_inset);
 
 // object_slice (axis=Z, position=0, thickness=2.9)
 difference()
 {
-	translate_x (tongue_length)
 	union()
 	{
 		tongue_bind();
-		
-		translate_x (tongue_bind_length)
 		screw();
 	}
 	
 	tongue_cut (inset=tongue_inset + gap);
 	
-	translate_x (tongue_length)
 	translate_x (tongue_screw_position)
 	{
 		translate_z (-tongue_thickness/2 - 1.0)
