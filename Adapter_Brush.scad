@@ -668,32 +668,18 @@ module tongue_bind()
 	cube_extend ([tongue_bind_length, tongue_width, tongue_thickness], align=[-1,0,0]);
 }
 
+function get_screw_slices () =
+	quantize (raster=12, value=
+	get_slices_circle_current_x (
+	max (screw_outer_diameter, screw_diameter_begin, screw_diameter_end
+	)))
+;
+
 module screw ()
 {
-	slices =
-		quantize (raster=12, value=
-		get_slices_circle_current_x (
-		max (screw_outer_diameter, screw_diameter_begin, screw_diameter_end
-	)));
-	
-	rotate_y(90)
-	linear_extrude(height=shaft_bind_length)
-	polygon(shaft_curve);
-	
-	translate_x(shaft_bind_length)
-	hull()
-	{
-		rotate_y(90)
-		linear_extrude(height=epsilon)
-		polygon(shaft_curve);
-		
-		translate_x(shaft_length - 2*shaft_bind_length)
-		rotate_y(90)
-		cylinder_extend(d=screw_outer_diameter, h=epsilon, slices=slices);
-	}
-	translate_x(shaft_length - shaft_bind_length)
-	rotate_y(90)
-	cylinder_extend(d=screw_outer_diameter, h=shaft_bind_length, slices=slices);
+	screw_shaft ();
+
+	slices = get_screw_slices();
 	
 	translate_x(shaft_length)
 	rotate_y(90)
@@ -758,6 +744,30 @@ module screw ()
 		);
 		//*/
 	}
+}
+
+module screw_shaft ()
+{
+	slices = get_screw_slices();
+
+	rotate_y(90)
+	linear_extrude(height=shaft_bind_length)
+	polygon(shaft_curve);
+
+	translate_x(shaft_bind_length)
+	hull()
+	{
+		rotate_y(90)
+		linear_extrude(height=epsilon)
+		polygon(shaft_curve);
+
+		translate_x(shaft_length - 2*shaft_bind_length)
+		rotate_y(90)
+		cylinder_extend(d=screw_outer_diameter, h=epsilon, slices=slices);
+	}
+	translate_x(shaft_length - shaft_bind_length)
+	rotate_y(90)
+	cylinder_extend(d=screw_outer_diameter, h=shaft_bind_length, slices=slices);
 }
 
 screw_rotation_begin =
