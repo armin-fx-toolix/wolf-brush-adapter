@@ -1,9 +1,9 @@
 include <Adapter Buerste.scad>
 
 tongue_inset          = 53.0;
-tongue_screw_position = 42.0;
+tongue_screw_position = 44.0;
 
-shaft_length = 51;
+shaft_length = 53;
 
 /* [Display] */
 

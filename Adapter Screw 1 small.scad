@@ -1,7 +1,6 @@
 include <Adapter Screw 1.scad>
 
 shaft_length = 37.5;
-//shaft_length = 47;
 
 screw_cylinder_depth = 8;
 screw_depth = 25.5;

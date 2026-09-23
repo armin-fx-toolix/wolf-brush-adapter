@@ -43,8 +43,7 @@ glue_bag_side_distance = 1.5; // 0.5
 
 /* [Tongue] */
 
-// original: 76mm
-tongue_length    = 75.5; // 0.1
+tongue_length    = 76; // 0.1
 tongue_width     = 18;   // 0.1
 tongue_thickness =  7;   // 0.1
 //
