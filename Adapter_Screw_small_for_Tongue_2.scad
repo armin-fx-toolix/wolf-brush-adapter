@@ -1,4 +1,4 @@
-include <Adapter Screw 2.scad>
+include <Adapter_Screw_normal_for_Tongue_2.scad>
 
 
 screw_cylinder_depth = 8;

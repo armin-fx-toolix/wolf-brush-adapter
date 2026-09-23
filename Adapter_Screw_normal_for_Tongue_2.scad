@@ -1,4 +1,4 @@
-include <Adapter Buerste.scad>
+include <Adapter_Brush.scad>
 
 tongue_inset          = 53.0;
 tongue_screw_position = 44.0;

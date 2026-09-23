@@ -1,4 +1,4 @@
-include <Adapter Screw 1.scad>
+include <Adapter_Screw_normal_for_Tongue_1.scad>
 
 shaft_length = 37.5;
 
