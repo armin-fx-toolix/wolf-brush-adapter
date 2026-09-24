@@ -1,10 +1,10 @@
 include <Adapter_Brush.scad>
 
-tongue_inset          = 43.5;
-tongue_screw_position = 17;
+tongue_inset           = 43.5;
+tongue_screw_position  = 17;
 
-shaft_length      = 43.5 + wall;
-shaft_bind_length =  7; // 0.1
+shaft_length           = 43.5 + 1.5;
+shaft_bind_length_tool = 20; // 0.1
 
 screw_diameter_outer = 37.5;
 screw_depth          = 17;
@@ -13,9 +13,11 @@ screw_pitch          = 3.9; // 0.1
 screw_tooth_diameter = 2; // 0.1
 screw_tooth_depth    = 1.2; // 0.1
 
+wall = 4;
+
 make_groove     = true;
 groove_depth    =  2;
-groove_diameter = 30;
+groove_diameter = 40;
 groove_count    = 10;
 
 /* [Display] */
@@ -74,7 +76,7 @@ module screw_outer ()
 		// Anbindung
 		conture =
 		[ each bezier_curve (
-			[[-screw_outer_diameter/2+epsilon, -shaft_bind_length]
+			[[-screw_outer_diameter/2+epsilon, -shaft_bind_length_tool]
 			,[-screw_outer_diameter/2+epsilon, -wall]
 			,[-screw_diameter_outer/2        , -wall]
 			], slices="x")
@@ -111,10 +113,10 @@ module screw_outer ()
 		part_cut()
 		for (a=[0:360/groove_count:359])
 		rotate_z (a)
-		translate ([screw_diameter_outer/2+wall, 0, -shaft_bind_length])
+		translate ([screw_diameter_outer/2+wall, 0, -shaft_bind_length_tool])
 		cylinder_extend (
 			  d=groove_diameter
-			, h=screw_depth+shaft_bind_length+extra
+			, h=screw_depth+shaft_bind_length_tool+extra
 			, angle=[180,90]
 			, align=X+Z
 			);

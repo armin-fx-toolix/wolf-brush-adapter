@@ -62,10 +62,11 @@ tongue_bind_thickness_end   = 1.3;
 
 /* [Shaft] */
 
-shaft_length      = 11; // 0.1
-shaft_bind_length =  1; // 0.1
-shaft_width       = 29; // 0.1
-shaft_thickness   = 23; // 0.1
+shaft_length           = 11; // 0.1
+shaft_bind_length      =  1; // 0.1
+shaft_bind_length_tool =  1; // 0.1
+shaft_width            = 29; // 0.1
+shaft_thickness        = 23; // 0.1
 // Parameter of superellipse
 shaft_n = 2.2; // 0.01
 
@@ -761,13 +762,13 @@ module screw_shaft ()
 		linear_extrude(height=epsilon)
 		polygon(shaft_curve);
 
-		translate_x(shaft_length - 2*shaft_bind_length)
+		translate_x(shaft_length - shaft_bind_length - shaft_bind_length_tool)
 		rotate_y(90)
 		cylinder_extend(d=screw_outer_diameter, h=epsilon, slices=slices);
 	}
-	translate_x(shaft_length - shaft_bind_length)
+	translate_x(shaft_length - shaft_bind_length_tool)
 	rotate_y(90)
-	cylinder_extend(d=screw_outer_diameter, h=shaft_bind_length, slices=slices);
+	cylinder_extend(d=screw_outer_diameter, h=shaft_bind_length_tool, slices=slices);
 }
 
 screw_rotation_begin =
