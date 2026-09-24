@@ -26,7 +26,7 @@ show_tongue = true;
 
 /* [Hidden] */
 
-component="none";
+component = "screw only outer";
 
 screw_outer_diameter = norm([tongue_width, tongue_thickness]) + 2*wall;
 
@@ -36,6 +36,7 @@ virtual()
 tongue_only (inset=tongue_inset);
 
 // object_slice (axis=Z, position=0, thickness=2.9)
+if (component=="screw only outer")
 difference()
 {
 	union()
