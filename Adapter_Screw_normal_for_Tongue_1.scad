@@ -9,30 +9,49 @@ shaft_length = 24;
 
 show_tongue = true;
 
+type = "component"; // ["component", "printable"]
+
 /* [Hidden] */
 
-component="none";
+component="screw only";
 
 
-if (show_tongue)
-virtual()
-tongue_only (inset=tongue_inset);
-
-// object_slice (axis=Z, position=0, thickness=2.9)
-difference()
+if (component=="screw only")
 {
-	union()
+	if (type=="component")
 	{
-		tongue_bind();
-		screw();
+		if (show_tongue)
+		virtual()
+		tongue_only (inset=tongue_inset);
+		
+		screw_for_tongue ();
 	}
 	
-	tongue_cut (inset=tongue_inset + gap);
-	
-	translate_x (tongue_screw_position)
+	if (type=="printable")
+		translate_z (shaft_length + screw_cylinder_depth + screw_depth)
+		rotate_y (90)
+		screw_for_tongue ();
+}
+
+module screw_for_tongue ()
+{
+	// object_slice (axis=Z, position=0, thickness=2.9)
+	difference()
 	{
-		cylinder_extend (h=30, d=4.2 + 2*gap, outer=0.5);
-		translate_z (tongue_thickness/2 + 3)
-		cylinder_extend (h=30, d=8.2 + 2*gap, outer=0.5);
+		union()
+		{
+			tongue_bind();
+			screw();
+		}
+		
+		tongue_cut (inset=tongue_inset + gap);
+		
+		translate_x (tongue_screw_position)
+		{
+			cylinder_extend (h=30, d=4.2 + 2*gap, outer=0.5);
+			translate_z (tongue_thickness/2 + 3)
+			cylinder_extend (h=30, d=8.2 + 2*gap, outer=0.5);
+		}
 	}
 }
+

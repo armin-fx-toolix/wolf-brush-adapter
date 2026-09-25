@@ -14,3 +14,5 @@ screw_rotation_angle = 45;
 /* [Display] */
 
 show_tongue = true;
+
+type = "component"; // ["component", "printable"]
